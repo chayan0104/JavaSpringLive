@@ -1,15 +1,18 @@
 package com.cricket.ipl.core2;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class Light {
-	
-//	@Bean
-	public String getLight() {
-		
-		return "100 Watt";
+
+	public String lgLight() {
+		return "100watt";
+
+	}
+
+	public String suryaLight() {
+		return "120watt";
+
 	}
 
 }
