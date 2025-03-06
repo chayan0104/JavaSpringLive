@@ -13,7 +13,11 @@ public class SpringApplicationDemo {
 		ApplicationContext context = SpringApplication.run(SpringApplicationDemo.class, args);
 
 		BulbService bulbservice = context.getBean(BulbService.class);
-		System.out.println(bulbservice.askBulb());
+		System.out.println(bulbservice);
+		
+		BulbService bulbservice2 = context.getBean(BulbService.class);
+		System.out.println(bulbservice2);
+		
 		System.out.println(bulbservice.dbConnection());
 		System.out.println(bulbservice.jdbcConnection());
 	}

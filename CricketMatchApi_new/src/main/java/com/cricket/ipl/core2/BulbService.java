@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +16,13 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Service
+@Scope("prototype")
 //@NoArgsConstructor
 //@AllArgsConstructor
 public class BulbService {
 
 	@Autowired
+//	@Qualifier("Lg") //helps to get the bean of that name 
 	private Bulb bulb;
 	@Autowired
 	private DataSource dataSource;

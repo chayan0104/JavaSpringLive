@@ -1,10 +1,13 @@
 package com.cricket.ipl.core2;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
-//@Primary
+@Qualifier("Lg")
+@Scope("prototype")
 public class LGBulb implements Bulb {
 
 	@Autowired
