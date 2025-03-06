@@ -15,5 +15,6 @@ public class SpringApplicationDemo {
 		BulbService bulbservice = context.getBean(BulbService.class);
 		System.out.println(bulbservice.askBulb());
 		System.out.println(bulbservice.dbConnection());
+		System.out.println(bulbservice.jdbcConnection());
 	}
 }

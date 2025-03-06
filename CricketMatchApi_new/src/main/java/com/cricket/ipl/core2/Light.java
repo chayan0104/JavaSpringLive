@@ -6,12 +6,12 @@ import org.springframework.context.annotation.Configuration;
 public class Light {
 
 	public String lgLight() {
-		return "100watt";
+		return "100 watt";
 
 	}
 
 	public String suryaLight() {
-		return "120watt";
+		return "120 watt";
 
 	}
 
