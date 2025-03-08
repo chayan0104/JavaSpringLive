@@ -13,7 +13,7 @@ public class RestApidemoApplication {
 
 //		UserController usc = context.getBean(UserController.class);
 
-		System.out.println("api running");
+		System.out.println("Api Running......");
 	}
 
 }
