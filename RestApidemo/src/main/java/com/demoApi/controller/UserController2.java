@@ -27,7 +27,7 @@ public class UserController2 {
 		return user;
 	}
 
-	// Using @RequestBody
+	// Using @RequestBody to accept data as json
 	@PostMapping("/registerdata2")
 	public User userData2(@RequestBody User user) {
 		return user;
@@ -44,11 +44,11 @@ public class UserController2 {
 	}
 
 	// Example of @PathVariable
-	@PostMapping("/registerdata3/{name}")
+	@PostMapping("/registerdata4/{name}")
 	public ResponseEntity<User> userData4(@PathVariable String name) {
 		System.out.println(name);
 
-		//http://localhost:7473/test/api/userdata/registerdata3/ram
+		//http://localhost:8787/test/api/userdata/registerdata3/ram
 		ResponseEntity<User> entity = new ResponseEntity<User>(HttpStatus.ACCEPTED);
 		return entity;
 	}
