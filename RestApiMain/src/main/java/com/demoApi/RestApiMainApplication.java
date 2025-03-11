@@ -2,12 +2,19 @@ package com.demoApi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.context.ApplicationContext;
 
-@SpringBootApplication
+import com.demoApi.javaTrainee.AppDetail;
+
+@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 public class RestApiMainApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RestApiMainApplication.class, args);
-	}
 
+		ApplicationContext context = SpringApplication.run(RestApiMainApplication.class, args);
+		AppDetail detail = context.getBean(AppDetail.class);
+
+		System.out.println(detail.appDetails());
+	}
 }
