@@ -7,7 +7,7 @@ import org.springframework.context.ApplicationContext;
 
 import com.demoApi.javaTrainee.AppDetail;
 
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+@SpringBootApplication
 public class RestApiMainApplication {
 
 	public static void main(String[] args) {
