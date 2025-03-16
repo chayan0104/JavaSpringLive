@@ -1,8 +1,9 @@
 package com.demoApi.javaTrainee;
 
 import java.util.List;
+import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,45 +11,60 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class JavaTraineeServiceImpl implements JavaTraineeService {
 
-	@Autowired
-	private JavaTraineeRepo javaTraineeRepo;
+    private JavaTraineeRepo javaTraineeRepo;
 
-	@Override
-	public String registerTrainee(JavaTraineeDTO dto) {
-		ObjectMapper mapper = new ObjectMapper();
-		JavaTraineeEntity convertvalue = mapper.convertValue(dto, JavaTraineeEntity.class);
-		javaTraineeRepo.save(convertvalue);
-		return "Trainee Info saved";
+    private ObjectMapper mapper;
+   
+    private JavaTraineeServiceImpl(JavaTraineeRepo javaTraineeRepo, ObjectMapper mapper) {
+		super();
+		this.javaTraineeRepo = javaTraineeRepo;
+		this.mapper = mapper;
 	}
 
 	@Override
-	public String registerAllTrainee(List<JavaTraineeDTO> dtolist) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public ResponseEntity<String> registerTrainee(JavaTraineeDTO dto) {
+        JavaTraineeEntity entity = mapper.convertValue(dto, JavaTraineeEntity.class);
+        javaTraineeRepo.save(entity);
+        return ResponseEntity.status(201).body("Trainee Info saved");
+    }
 
-	@Override
-	public JavaTraineeDTO updateTrainee(JavaTraineeDTO dto, Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public ResponseEntity<String> registerAllTrainee(List<JavaTraineeDTO> dtolist) {
+        List<JavaTraineeEntity> entities = mapper.convertValue(dtolist, List.class);
+        javaTraineeRepo.saveAll(entities);
+        return ResponseEntity.status(201).body("All trainees saved");
+    }
 
-	@Override
-	public String deleteTrainee(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public ResponseEntity<String> updateTrainee(JavaTraineeDTO dto, Integer id) {
+        Optional<JavaTraineeEntity> existing = javaTraineeRepo.findById(id);
+        if (!existing.isPresent()) {
+            return ResponseEntity.status(404).body("Trainee not found");
+        }
+        
+        JavaTraineeEntity entity = mapper.convertValue(dto, JavaTraineeEntity.class);
+        entity.setId(id);
+        javaTraineeRepo.save(entity);
+        return ResponseEntity.status(200).body("Trainee updated");
+    }
 
-	@Override
-	public String findByIDTrainee(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public ResponseEntity<String> deleteTrainee(Integer id) {
+        if (!javaTraineeRepo.existsById(id)) {
+            return ResponseEntity.status(404).body("Trainee not found");
+        }
+        javaTraineeRepo.deleteById(id);
+        return ResponseEntity.status(200).body("Trainee deleted");
+    }
 
-	@Override
-	public List<JavaTraineeDTO> findallTrainee() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public JavaTraineeDTO findByIDTrainee(Integer id) {
+        Optional<JavaTraineeEntity> entity = javaTraineeRepo.findById(id);
+        return entity.map(e -> mapper.convertValue(e, JavaTraineeDTO.class)).orElse(null);
+    }
 
+    @Override
+    public List<JavaTraineeDTO> findallTrainee() {
+        return mapper.convertValue(javaTraineeRepo.findAll(), List.class);
+    }
 }

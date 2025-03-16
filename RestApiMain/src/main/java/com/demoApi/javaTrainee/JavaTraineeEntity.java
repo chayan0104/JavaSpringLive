@@ -1,5 +1,6 @@
 package com.demoApi.javaTrainee;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +16,9 @@ public class JavaTraineeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //generates automatically
 	private int id;
-	private String name, email, mobile;
+	@Column
+	private String name, email;
+	@Column
+	private long mobile;
 
 }

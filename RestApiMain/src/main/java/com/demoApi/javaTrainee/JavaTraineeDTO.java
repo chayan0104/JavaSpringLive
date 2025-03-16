@@ -1,12 +1,16 @@
 package com.demoApi.javaTrainee;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
 @Table(name = "trainee_data")
 public class JavaTraineeDTO {
-	
-	private String name, email, mobile;
+	@JsonIgnore
+	private int id;
+	private String name, email;
+	private long mobile;
 
 }
