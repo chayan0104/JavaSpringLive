@@ -1,4 +1,4 @@
-package com.employee.Trainee;
+package com.employee.trainee;
 
 import java.util.List;
 
@@ -18,19 +18,36 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 public class EmpController {
-	@Autowired
+
 	private EmpServiceImpl empService;
+	private EmpRepo empRepo;
+	private EmpDto empDto;
+
+	@Autowired
+	public void setEmpService(EmpServiceImpl empService) {
+		this.empService = empService;
+	}
+
+	@Autowired
+	public void setEmpRepo(EmpRepo empRepo) {
+		this.empRepo = empRepo;
+	}
+
+	@Autowired
+	public void setEmpDto(EmpDto empDto) {
+		this.empDto = empDto;
+	}
 
 	@PostMapping("/register")
 	public ResponseEntity<String> createEmployee(@RequestBody EmpDto empDto) {
 		empService.createEmployee(empDto);
-        return new ResponseEntity<>("Registered",HttpStatus.CREATED);
+		return new ResponseEntity<>("Registered", HttpStatus.CREATED);
 	}
 
 	@PostMapping("/registerall")
 	public ResponseEntity<String> createMultipleEmployees(@RequestBody List<EmpDto> empDtos) {
 		empService.createMultipleEmployees(empDtos);
-		return new ResponseEntity<>("Registered all",HttpStatus.CREATED);
+		return new ResponseEntity<>("Registered all", HttpStatus.CREATED);
 	}
 
 	@PutMapping("/update")
@@ -38,14 +55,20 @@ public class EmpController {
 		return null;
 	}
 
-	@DeleteMapping("/delete")
-	public String deleteEmployee(@RequestParam String param) {
-		return null;
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<String> deleteEmployee(@PathVariable Integer id) {
+		if (empRepo.existsById(id)) {
+			empService.deleteEmployee(id);
+			return ResponseEntity.ok("Deleted");
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(id + "Is not found;please enter a valid id:");
+		}
+
 	}
 
 	@GetMapping("/find/{id}")
 	public ResponseEntity<EmpDto> getEmployeeById(@PathVariable Integer id) {
-		EmpDto empDto = empService.getEmployeeById(id);		
+		empDto = empService.getEmployeeById(id);
 		return ResponseEntity.ok(empDto);
 	}
 

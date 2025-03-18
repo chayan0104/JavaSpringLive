@@ -8,13 +8,7 @@ import com.employee.config.*;
 
 @SpringBootApplication
 public class EmpApiApplication {
-
-    private final AppDetails appDetails;
-
-    EmpApiApplication(AppDetails appDetails) {
-        this.appDetails = appDetails;
-    }
-
+	
 	public static void main(String[] args) {
 		ApplicationContext context = SpringApplication.run(EmpApiApplication.class, args);
 		AppDetails app= context.getBean(AppDetails.class);

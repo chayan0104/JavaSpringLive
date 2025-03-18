@@ -1,4 +1,4 @@
-package com.employee.Trainee;
+package com.employee.trainee;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -11,6 +11,9 @@ import lombok.Data;
 public class EmpDto {
 
 	private int id;
-	private String name, email, city, skill;
+	private String name;
+	private String  email;
+	private String  city;
+	private String  skill;
 	private long mobileNo;
 }

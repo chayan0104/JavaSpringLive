@@ -1,4 +1,4 @@
-package com.employee.Trainee;
+package com.employee.trainee;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

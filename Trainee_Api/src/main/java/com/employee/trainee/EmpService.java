@@ -1,4 +1,4 @@
-package com.employee.Trainee;
+package com.employee.trainee;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ public interface EmpService {
 
 	public EmpDto updateEmployee(EmpDto empDto, Integer id);
 
-	public void deleteEmployee(Integer id);
+	public String deleteEmployee(Integer id);
 
 	public EmpDto getEmployeeById(Integer id);
 
