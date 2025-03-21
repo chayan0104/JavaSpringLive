@@ -38,14 +38,15 @@ public class EmpServiceImpl implements EmpService {
 
 	@Override
 	public EmpDto updateEmployee(EmpDto empDto, Integer id) {
-
+//		EmpEntity entity = mapper.convertValue(empDto, EmpEntity.class);
+		
 		return null;
 	}
 
 	@Override
 	public String deleteEmployee(Integer id) {
 		empRepo.deleteById(id);
-		return "Employee Deleted";
+		return "Employee deleted";
 	}
 
 	@Override

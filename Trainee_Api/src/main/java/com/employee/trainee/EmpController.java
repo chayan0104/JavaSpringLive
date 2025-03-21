@@ -51,8 +51,13 @@ public class EmpController {
 	}
 
 	@PutMapping("/update")
-	public String updateEmployee(@RequestParam String param) {
-		return null;
+	public ResponseEntity<String> updateEmployee(@RequestBody EmpDto empDto, Integer id) {
+		if (empRepo.existsById(id)) {
+			empService.updateEmployee(empDto, id);
+			return ResponseEntity.ok("Employee Updated");
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Enter a valid data");
+		}
 	}
 
 	@DeleteMapping("/delete/{id}")
@@ -67,14 +72,25 @@ public class EmpController {
 	}
 
 	@GetMapping("/find/{id}")
-	public ResponseEntity<EmpDto> getEmployeeById(@PathVariable Integer id) {
-		empDto = empService.getEmployeeById(id);
-		return ResponseEntity.ok(empDto);
+	public ResponseEntity<?> getEmployeeById(@PathVariable Integer id) {
+		if (empRepo.existsById(id)) {
+			empDto = empService.getEmployeeById(id);
+			return ResponseEntity.ok(empDto);
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(id + "Is not found;please enter a valid id");
+		}
 	}
 
 	@GetMapping("/findall")
-	public String getAllEmployees(@RequestParam String param) {
-		return null;
+	public ResponseEntity<?>  getAllEmployees(@RequestParam(required = false) String param) {
+		List<EmpDto> emplist = empService.getAllEmployees();
+		
+		if (emplist.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("no emplyee found");
+		} else {
+			return ResponseEntity.ok("Emplyees list ");
+			
+		}
 	}
 
 }
