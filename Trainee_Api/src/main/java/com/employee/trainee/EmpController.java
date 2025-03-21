@@ -19,78 +19,67 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class EmpController {
 
-	private EmpServiceImpl empService;
-	private EmpRepo empRepo;
-	private EmpDto empDto;
+    private final EmpServiceImpl empService;
+    private final EmpRepo empRepo;
 
-	@Autowired
-	public void setEmpService(EmpServiceImpl empService) {
-		this.empService = empService;
-	}
+    public EmpController(EmpServiceImpl empService, EmpRepo empRepo) {
+        this.empService = empService;
+        this.empRepo = empRepo;
+    }
 
-	@Autowired
-	public void setEmpRepo(EmpRepo empRepo) {
-		this.empRepo = empRepo;
-	}
+    @PostMapping("/register")
+    public ResponseEntity<String> createEmployee(@RequestBody EmpDto empDto) {
+        empService.createEmployee(empDto);
+        return new ResponseEntity<>("Employee Registered", HttpStatus.CREATED);
+    }
 
-	@Autowired
-	public void setEmpDto(EmpDto empDto) {
-		this.empDto = empDto;
-	}
+    @PostMapping("/registerall")
+    public ResponseEntity<String> createMultipleEmployees(@RequestBody List<EmpDto> empDtos) {
+        empService.createMultipleEmployees(empDtos);
+        return new ResponseEntity<>("All Employees Registered", HttpStatus.CREATED);
+    }
 
-	@PostMapping("/register")
-	public ResponseEntity<String> createEmployee(@RequestBody EmpDto empDto) {
-		empService.createEmployee(empDto);
-		return new ResponseEntity<>("Registered", HttpStatus.CREATED);
-	}
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateEmployee(@PathVariable Integer id, @RequestBody EmpDto empDto) {
+        if (empRepo.existsById(id)) {
+            empService.updateEmployee(empDto, id);
+            return ResponseEntity.ok("Employee Updated");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                 .body("Employee with ID " + id + " not found. Please provide a valid ID.");
+        }
+    }
 
-	@PostMapping("/registerall")
-	public ResponseEntity<String> createMultipleEmployees(@RequestBody List<EmpDto> empDtos) {
-		empService.createMultipleEmployees(empDtos);
-		return new ResponseEntity<>("Registered all", HttpStatus.CREATED);
-	}
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteEmployee(@PathVariable Integer id) {
+        if (empRepo.existsById(id)) {
+            empService.deleteEmployee(id);
+            return ResponseEntity.ok("Employee Deleted");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                 .body("Employee with ID " + id + " not found. Please provide a valid ID.");
+        }
+    }
 
-	@PutMapping("/update")
-	public ResponseEntity<String> updateEmployee(@RequestBody EmpDto empDto, Integer id) {
-		if (empRepo.existsById(id)) {
-			empService.updateEmployee(empDto, id);
-			return ResponseEntity.ok("Employee Updated");
-		} else {
-			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Enter a valid data");
-		}
-	}
+    @GetMapping("/find/{id}")
+    public ResponseEntity<?> getEmployeeById(@PathVariable Integer id) {
+        if (empRepo.existsById(id)) {
+            EmpDto empDto = empService.getEmployeeById(id);
+            return ResponseEntity.ok(empDto);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                 .body("Employee with ID " + id + " not found. Please provide a valid ID.");
+        }
+    }
 
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<String> deleteEmployee(@PathVariable Integer id) {
-		if (empRepo.existsById(id)) {
-			empService.deleteEmployee(id);
-			return ResponseEntity.ok("Deleted");
-		} else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(id + "Is not found;please enter a valid id:");
-		}
-
-	}
-
-	@GetMapping("/find/{id}")
-	public ResponseEntity<?> getEmployeeById(@PathVariable Integer id) {
-		if (empRepo.existsById(id)) {
-			empDto = empService.getEmployeeById(id);
-			return ResponseEntity.ok(empDto);
-		} else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(id + "Is not found;please enter a valid id");
-		}
-	}
-
-	@GetMapping("/findall")
-	public ResponseEntity<?>  getAllEmployees(@RequestParam(required = false) String param) {
-		List<EmpDto> emplist = empService.getAllEmployees();
-		
-		if (emplist.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("no emplyee found");
-		} else {
-			return ResponseEntity.ok("Emplyees list ");
-			
-		}
-	}
-
+    @GetMapping("/findall")
+    public ResponseEntity<?> getAllEmployees(@RequestParam(required = false) String param) {
+        List<EmpDto> emplist = empService.getAllEmployees();
+        if (emplist.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No employees found");
+        } else {
+            // Returning the list directly rather than a concatenated string.
+            return ResponseEntity.ok(emplist);
+        }
+    }
 }

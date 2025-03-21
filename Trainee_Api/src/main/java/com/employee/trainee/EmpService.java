@@ -14,5 +14,5 @@ public interface EmpService {
 
 	public EmpDto getEmployeeById(Integer id);
 
-	public List<EmpDto> getAllEmployees();
+	public List getAllEmployees();
 }
