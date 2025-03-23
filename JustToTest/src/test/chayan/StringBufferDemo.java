@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -18,7 +19,8 @@ public class StringBufferDemo {
 			 sb.append(number).append(",");
 		 }
 		 if(sb.length()>0) {
-			 sb.setLength(sb.length()-1);
+//			 sb.setLength(sb.length()-1);
+			 sb.deleteCharAt(sb.length()-1);
 		 }
 		 
 		 System.out.println("Numbers are:" + sb.toString());
