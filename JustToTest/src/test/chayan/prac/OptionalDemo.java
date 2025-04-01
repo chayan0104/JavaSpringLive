@@ -1,4 +1,4 @@
-package test.chayan;
+package test.chayan.prac;
 
 import java.util.Optional;
 import java.util.Scanner;
